@@ -2,11 +2,11 @@
 
 import {
   ArrowRight,
-  // Focus,
-  // Paperclip,
+  Focus,
+  Paperclip,
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { Switch } from "@/components/ui/switch"
+import NotImplemented from "@/components/NotImplemented"
 
 type Suggestion = {
   emoji: string
@@ -35,7 +35,7 @@ export default function SearchPage() {
     { emoji: "📚", text: "Bestselling books released in 2025" },
   ]
   return (
-    <div className="flex items-center justify-center min-h-screen bg-background">
+    <div className="flex items-center justify-center h-full bg-background">
       <div className="w-full max-w-3xl px-4 bg-background">
         <h1 className="text-4xl text-center text-foreground mb-8">What do you want to know?</h1>
 
@@ -48,17 +48,15 @@ export default function SearchPage() {
               className="flex-1 bg-transparent outline-none text-gray-800 dark:text-gray-200 placeholder-gray-500 dark:placeholder-gray-400"
             />
             <div className="flex items-center gap-3">
-              {/* <Button variant="ghost" size="sm" className="text-gray-400 hover:text-gray-300">
+              <Button variant="ghost" size="sm" className="text-gray-400 hover:text-gray-300" onClick={() => NotImplemented()}>
                 <Focus className="w-4 h-4 mr-2" />
                 Focus
               </Button>
-              <Button variant="ghost" size="sm" className="text-gray-400 hover:text-gray-300">
+              <Button variant="ghost" size="sm" className="text-gray-400 hover:text-gray-300" onClick={() => NotImplemented()}>
                 <Paperclip className="w-4 h-4 mr-2" />
                 Attach
               </Button>
-              <div className="h-5 w-px bg-gray-700" /> */}
-              <Switch />
-              <span className="text-sm text-gray-400">Pro</span>
+              <div className="h-5 w-px bg-gray-700" />
               <Button size="icon" className="bg-cyan-500 hover:bg-cyan-600">
                 <ArrowRight className="w-4 h-4" />
               </Button>

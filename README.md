@@ -1,33 +1,25 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Veracity
 
-## Getting Started
+A self-hostable Clone of [Perplexity](https://www.perplexity.ai/). Works with Ollama, Groq, Deepseek or any other inference provider that is OpenAI compatible.
 
-First, run the development server:
+## Execution
 
 ```bash
+git clone https://github.com/Siddhesh-Agarwal/veracity
+cd ./veracity/
+npm i
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Tech Stack
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- Next 15
+- TypeScript
+- TailwindCSS
+- ShadCN UI
 
 ## Deploy on Vercel
 

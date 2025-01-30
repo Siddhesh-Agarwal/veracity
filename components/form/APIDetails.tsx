@@ -1,7 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { z } from "zod"
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "../ui/form";
 import { useState } from "react";
 import { Input } from "../ui/input";
@@ -9,14 +8,8 @@ import { Button } from "../ui/button";
 import { Separator } from "../ui/separator";
 import { Trash2 } from "lucide-react"
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "../ui/alert-dialog";
+import { APIDetails, APIDetailsSchema } from "@/types/apiKey";
 
-
-const APIDetailsSchema = z.object({
-    base_url: z.string().trim().url(),
-    api_key: z.string().trim().min(0),
-});
-
-type APIDetails = z.infer<typeof APIDetailsSchema>
 
 export default function APIDetailsForm() {
     const form = useForm<APIDetails>({

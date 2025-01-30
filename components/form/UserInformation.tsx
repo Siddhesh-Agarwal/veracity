@@ -3,19 +3,11 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form";
 import { Input } from "../ui/input";
-import { z } from "zod";
+
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "../ui/form";
 import { toast } from "sonner";
 import { Button } from "../ui/button";
-
-
-const UserInformationSchema = z.object({
-    name: z.string().trim().nonempty(),
-    email: z.string().trim().email().toLowerCase(),
-});
-
-type UserInformation = z.infer<typeof UserInformationSchema>;
-
+import { type UserInformation, UserInformationSchema } from "@/types/user";
 
 
 export default function UserInformationForm() {
@@ -32,6 +24,7 @@ export default function UserInformationForm() {
         console.log(values);
     }
 
+
     return (
         <div className="p-4 w-full">
             <p className="text-lg font-semibold">Personal Information</p>
@@ -45,7 +38,7 @@ export default function UserInformationForm() {
                             <FormItem>
                                 <FormLabel>Name</FormLabel>
                                 <FormControl>
-                                    <Input {...field} placeholder="Jane Doe" />
+                                    <Input {...field} placeholder="Jane Doe"/>
                                 </FormControl>
                                 <FormDescription>
                                     This is the name that will be displayed on your profile.

@@ -83,7 +83,7 @@ export default function AppSideBar() {
             <SidebarFooter>
                 <Dialog>
                     <DialogTrigger>
-                        <div className="p-4 border inline-flex gap-2 w-full hover:bg-accent">
+                        <div className="p-4 border inline-flex gap-2 rounded-md w-full hover:bg-accent">
                             {/* Avatar */}
                             <Avatar className="w-8 h-8">
                                 <AvatarImage src={`https://api.dicebear.com/9.x/avataaars-neutral/svg?seed=${name}`} />

@@ -2,35 +2,72 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "../ui/form";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { Separator } from "../ui/separator";
 import { Trash2 } from "lucide-react"
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "../ui/alert-dialog";
 import { APIDetails, APIDetailsSchema } from "@/types/apiKey";
+import NotImplemented from "../NotImplemented";
 
+type APIDetailsWithID = APIDetails & { id: number }
 
 export default function APIDetailsForm() {
     const form = useForm<APIDetails>({
         resolver: zodResolver(APIDetailsSchema),
-        defaultValues: {
-            base_url: "https://api.example.com",
-            api_key: "",
-        }
     })
-    const [apiDetails, setAPIDetails] = useState<APIDetails[]>([]);
+    const [apiDetails, setAPIDetails] = useState<APIDetailsWithID[]>([]);
 
-    function onSubmit(values: APIDetails) {
-        toast.success("API details updated successfully!");
-        setAPIDetails([...apiDetails, values]);
+    const onSubmit = async (values: APIDetails) => {
+        try {
+            const response = await fetch("/api/api-key", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(values),
+            });
+
+            if (!response.ok) {
+                throw new Error(response.statusText);
+            }
+
+            toast.success("API details updated successfully!");
+            await getAPIDetails();
+        } catch (error) {
+            toast.error("Failed to add API details.");
+            console.error(error);
+        }
     }
 
-    function removeAPI(index: number) {
-        const newAPI = apiDetails.filter((_, i) => i !== index);
-        setAPIDetails(newAPI);
-        toast.success("API details removed successfully!");
+    const removeAPI = async (id: number) => {
+        try {
+            const response = await fetch(`/api/api-key/${id}`, {
+                method: "DELETE",
+            });
+
+            if (!response.ok) {
+                throw new Error(response.statusText);
+            }
+            toast.success("API details removed successfully!");
+            await getAPIDetails();
+        } catch (error) {
+            toast.error(`Failed to remove API details. ${error}`);
+            console.error(error);
+        }
     }
+
+    const getAPIDetails = async () => {
+        const response = await fetch("/api/api-key");
+        const data = await response.json();
+        console.log(data);
+        setAPIDetails(data as APIDetailsWithID[]);
+    }
+
+    useEffect(() => {
+        getAPIDetails();
+    }, [])
 
     return (
         <div className="p-4 w-full">
@@ -41,11 +78,11 @@ export default function APIDetailsForm() {
                 Existing Connections
             </h2>
 
-            <div className="divide-y divide-gray-200 mb-4">
+            <div className="mb-4">
                 {
                     (apiDetails.length > 0) ? (
                         apiDetails.map((api, index) => (
-                            <div className="inline-flex gap-2" key={index}>
+                            <div className="inline-flex gap-2 py-2" key={index}>
                                 <Input
                                     value={api.base_url}
                                     type="url"
@@ -75,7 +112,7 @@ export default function APIDetailsForm() {
                                             <AlertDialogCancel>
                                                 Cancel
                                             </AlertDialogCancel>
-                                            <AlertDialogAction onClick={() => removeAPI(index)}>
+                                            <AlertDialogAction onClick={() => NotImplemented()}>
                                                 Delete
                                             </AlertDialogAction>
                                         </AlertDialogFooter>
@@ -105,7 +142,7 @@ export default function APIDetailsForm() {
                             <FormItem>
                                 <FormLabel>Base URL</FormLabel>
                                 <FormControl>
-                                    <Input {...field} placeholder="https://api.example.com" type={"url"} />
+                                    <Input {...field} placeholder="https://api.example.com/" type={"url"} />
                                 </FormControl>
                                 <FormDescription>
                                     The base URL of the API you want to connect to.

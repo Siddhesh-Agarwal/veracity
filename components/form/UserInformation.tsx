@@ -33,6 +33,8 @@ export default function UserInformationForm({ info }: { info: UserInformation })
             }
 
             toast.success("Profile updated successfully!");
+            // Reload the page to reflect the changes
+            window.location.reload();
         } catch (error) {
             console.error(error);
             toast.error("Failed to update profile.");

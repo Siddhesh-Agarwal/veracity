@@ -5,14 +5,10 @@ import { UserInformationTable } from "@/types/schema";
 import { eq } from "drizzle-orm";
 
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse<UserInformation>) {
     if (req.method === "GET") {
         const users = await db.select().from(UserInformationTable).all();
-        if (users.length === 1) {
-            res.status(200).json(users[0]);
-        } else {
-            res.status(200).json({ name: "User", email: "" });
-        }
+        res.status(200).json({ name: users[0].name || "User", email: users[0].email || "" });
     } else if (req.method === "POST") {
         const { name, email } = req.body as UserInformation;
         await db.update(UserInformationTable)

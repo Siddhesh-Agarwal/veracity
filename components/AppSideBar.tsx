@@ -108,7 +108,7 @@ export default function AppSideBar() {
                         <div className="p-4 border inline-flex gap-2 rounded-md w-full hover:bg-accent">
                             {/* Avatar */}
                             <Avatar className="w-8 h-8">
-                                <AvatarImage src={`https://api.dicebear.com/9.x/avataaars-neutral/svg?seed=${name}`} />
+                                <AvatarImage src={`https://api.dicebear.com/9.x/avataaars-neutral/svg?seed=${information.name}`} />
                                 <AvatarFallback>{initials}</AvatarFallback>
                             </Avatar>
                             <p className="text-lg overflow-hidden overflow-ellipsis whitespace-nowrap">
@@ -116,7 +116,7 @@ export default function AppSideBar() {
                             </p>
                         </div>
                     </DialogTrigger>
-                    <DialogContent>
+                    <DialogContent className="h-1/2 overflow-y-scroll flex flex-col">
                         <DialogHeader>
                             <DialogTitle>
                                 Settings

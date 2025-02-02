@@ -3,8 +3,9 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
 import UserInformationForm from "./form/UserInformation";
 import AppearanceForm from "./form/Appearance";
 import WebSearch from "./form/WebSearch";
+import { UserInformation } from "@/types/user";
 
-export default function Settings() {
+export default function Settings({ information }: { information: UserInformation }) {
     return (
         <Tabs className="w-full">
             <TabsList defaultValue={"user"}>
@@ -14,7 +15,7 @@ export default function Settings() {
                 <TabsTrigger value="web-search">Web Search</TabsTrigger>
             </TabsList>
             <TabsContent value="user">
-                <UserInformationForm />
+                <UserInformationForm info={information} />
             </TabsContent>
             <TabsContent value="appearance">
                 <AppearanceForm />

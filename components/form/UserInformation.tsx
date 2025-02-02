@@ -10,18 +10,33 @@ import { Button } from "../ui/button";
 import { type UserInformation, UserInformationSchema } from "@/types/user";
 
 
-export default function UserInformationForm() {
+export default function UserInformationForm({ info }: { info: UserInformation }) {
     const form = useForm<UserInformation>({
         resolver: zodResolver(UserInformationSchema),
-        defaultValues: {
-            name: "User",
-            email: "",
-        }
+        defaultValues: info,
     })
 
-    function onSubmit(values: UserInformation) {
-        toast.success("Profile updated successfully!");
-        console.log(values);
+    async function onSubmit(values: UserInformation) {
+        try {
+            const response = await fetch("/api/user", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(values),
+            });
+
+            console.log(response);
+
+            if (!response.ok) {
+                throw new Error(response.statusText);
+            }
+
+            toast.success("Profile updated successfully!");
+        } catch (error) {
+            console.error(error);
+            toast.error("Failed to update profile.");
+        }
     }
 
 
@@ -38,7 +53,7 @@ export default function UserInformationForm() {
                             <FormItem>
                                 <FormLabel>Name</FormLabel>
                                 <FormControl>
-                                    <Input {...field} placeholder="Jane Doe"/>
+                                    <Input {...field} placeholder="Jane Doe" />
                                 </FormControl>
                                 <FormDescription>
                                     This is the name that will be displayed on your profile.

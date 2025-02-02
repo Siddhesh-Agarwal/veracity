@@ -10,36 +10,58 @@ import VeracityLogo from "@/public/logo.svg";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "./ui/dialog";
 import { useEffect, useState } from "react";
 import Settings from "./Settings";
+import { UserInformation } from "@/types/user";
+
+type SidebarNavLinksType = {
+    icon: React.ReactNode;
+    text: string;
+    hrefLink: string;
+}
+
+const SidebarNavLinks: SidebarNavLinksType[] = [
+    {
+        icon: <Home className="w-4 h-4" />,
+        text: "Home",
+        hrefLink: "/",
+    },
+    {
+        icon: <Compass className="w-4 h-4" />,
+        text: "Discover",
+        hrefLink: "/discover",
+    },
+    {
+        icon: <Grid3X3 className="w-4 h-4" />,
+        text: "Spaces",
+        hrefLink: "/spaces",
+    },
+    {
+        icon: <Library className="w-4 h-4" />,
+        text: "Library",
+        hrefLink: "/library",
+    },
+]
 
 export default function AppSideBar() {
-    const name = "User";
-    const [initials, setInitials] = useState("U");
-    const SidebarNavLinks = [
-        {
-            icon: <Home className="w-4 h-4" />,
-            text: "Home",
-            hrefLink: "/",
-        },
-        {
-            icon: <Compass className="w-4 h-4" />,
-            text: "Discover",
-            hrefLink: "/discover",
-        },
-        {
-            icon: <Grid3X3 className="w-4 h-4" />,
-            text: "Spaces",
-            hrefLink: "/spaces",
-        },
-        {
-            icon: <Library className="w-4 h-4" />,
-            text: "Library",
-            hrefLink: "/library",
-        },
-    ]
+    const [information, setInformation] = useState<UserInformation>({ name: "User", email: "" });
+    const [initials, setInitials] = useState("");
+
+    const getUserInformation = async () => {
+        fetch("/api/user")
+            .then((res) => res.json())
+            .then((data) => {
+                console.log(data);
+                setInformation(data)
+            });
+    }
 
     useEffect(() => {
-        setInitials(name.split(' ').map((n) => n[0]).join('').toUpperCase());
-    }, [name]);
+        // Get User Information
+        getUserInformation()
+    }, [])
+    useEffect(() => {
+        // Get Initials
+        setInitials(information.name.split(' ').map((n) => n[0]).join('').toUpperCase());
+    }, [information.name]);
 
     return (
         <Sidebar variant="sidebar" collapsible="icon">
@@ -90,7 +112,7 @@ export default function AppSideBar() {
                                 <AvatarFallback>{initials}</AvatarFallback>
                             </Avatar>
                             <p className="text-lg overflow-hidden overflow-ellipsis whitespace-nowrap">
-                                {name}
+                                {information.name}
                             </p>
                         </div>
                     </DialogTrigger>
@@ -103,7 +125,7 @@ export default function AppSideBar() {
                                 Manage your account settings and preferences.
                             </DialogDescription>
                         </DialogHeader>
-                        <Settings />
+                        <Settings information={information} />
                     </DialogContent>
                 </Dialog>
             </SidebarFooter>

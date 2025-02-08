@@ -8,8 +8,14 @@ const UserInformationTable = sqliteTable("user_information", {
 
 const APIKeyTable = sqliteTable("api_key", {
     id: int().primaryKey({ autoIncrement: true }),
-    base_url: text().unique(),
+    base_url: text(),
     api_key: text(),
 });
 
-export { APIKeyTable, UserInformationTable };
+const WebSearchTable = sqliteTable("web_search", {
+    id: int().primaryKey({ autoIncrement: true }),
+    provider: text(),
+    apiKey: text()
+});
+
+export { APIKeyTable, UserInformationTable, WebSearchTable };
